@@ -1,0 +1,46 @@
+﻿<Window x:Class="MemoryGame.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MemoryGame.ViewModel"
+        Title="Memory Game - Sign In" 
+        Height="500" Width="550"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+       
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <Label Content="Username:" VerticalAlignment="Center"/>
+            <TextBox Width="200" Margin="5,0,0,0" Text="{Binding NewUsername, UpdateSourceTrigger=PropertyChanged}" Height="32"/>
+          
+            <Button Content="&#x2190;" Command="{Binding PreviousImageCommand}" Margin="5,0,0,0" Height="32" Width="32"/>
+            <Image Source="{Binding CurrentImage}" Width="161" Height="107" Margin="5,0,0,0"/>
+            <Button Content="&#x2192;" Command="{Binding NextImageCommand}" Margin="5,0,0,0" Height="32" Width="32"/>
+        </StackPanel>
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ImagePath}" Width="50" Height="50" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Username}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button Content="Add User" Command="{Binding AddUserCommand}" Margin="5"/>
+            <Button Content="Delete User" Command="{Binding DeleteUserCommand}" Margin="5" IsEnabled="{Binding IsUserSelected}"/>
+            <Button Content="Play" Command="{Binding PlayCommand}" Margin="5" IsEnabled="{Binding IsUserSelected}"/>
+            <Button Content="Exit" Command="{Binding ExitCommand}" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,385 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\back.png" />
+    <None Remove="Images\background.jpg" />
+    <None Remove="Images\Drivers\Image0.jpg" />
+    <None Remove="Images\Drivers\Image1.jpg" />
+    <None Remove="Images\Drivers\Image10.jpg" />
+    <None Remove="Images\Drivers\Image11.jpg" />
+    <None Remove="Images\Drivers\Image12.jpg" />
+    <None Remove="Images\Drivers\Image13.jpg" />
+    <None Remove="Images\Drivers\Image14.jpg" />
+    <None Remove="Images\Drivers\Image15.jpg" />
+    <None Remove="Images\Drivers\Image16.jpg" />
+    <None Remove="Images\Drivers\Image17.jpg" />
+    <None Remove="Images\Drivers\Image18.jpg" />
+    <None Remove="Images\Drivers\Image19.jpg" />
+    <None Remove="Images\Drivers\Image2.jpg" />
+    <None Remove="Images\Drivers\Image3.jpg" />
+    <None Remove="Images\Drivers\Image4.jpg" />
+    <None Remove="Images\Drivers\Image5.jpg" />
+    <None Remove="Images\Drivers\Image6.jpg" />
+    <None Remove="Images\Drivers\Image7.jpg" />
+    <None Remove="Images\Drivers\Image8.jpg" />
+    <None Remove="Images\Drivers\Image9.jpg" />
+    <None Remove="Images\Image0.jpg" />
+    <None Remove="Images\Image1.jpg" />
+    <None Remove="Images\Image10.jpg" />
+    <None Remove="Images\Image11.jpg" />
+    <None Remove="Images\Image12.jpg" />
+    <None Remove="Images\Image13.jpg" />
+    <None Remove="Images\Image14.jpg" />
+    <None Remove="Images\Image15.jpg" />
+    <None Remove="Images\Image16.jpg" />
+    <None Remove="Images\Image17.jpg" />
+    <None Remove="Images\Image18.jpg" />
+    <None Remove="Images\Image19.jpg" />
+    <None Remove="Images\Image2.jpg" />
+    <None Remove="Images\Image3.jpg" />
+    <None Remove="Images\Image4.jpg" />
+    <None Remove="Images\Image5.jpg" />
+    <None Remove="Images\Image6.jpg" />
+    <None Remove="Images\Image7.jpg" />
+    <None Remove="Images\Image8.jpg" />
+    <None Remove="Images\Image9.jpg" />
+    <None Remove="Images\Legends\Image0.jpg" />
+    <None Remove="Images\Legends\Image0.png" />
+    <None Remove="Images\Legends\Image1.jpg" />
+    <None Remove="Images\Legends\Image1.png" />
+    <None Remove="Images\Legends\Image10.jpg" />
+    <None Remove="Images\Legends\Image10.png" />
+    <None Remove="Images\Legends\Image11.jpg" />
+    <None Remove="Images\Legends\Image11.png" />
+    <None Remove="Images\Legends\Image12.jpg" />
+    <None Remove="Images\Legends\Image12.png" />
+    <None Remove="Images\Legends\Image13.jpg" />
+    <None Remove="Images\Legends\Image13.png" />
+    <None Remove="Images\Legends\Image14.jpg" />
+    <None Remove="Images\Legends\Image14.png" />
+    <None Remove="Images\Legends\Image15.jpg" />
+    <None Remove="Images\Legends\Image15.png" />
+    <None Remove="Images\Legends\Image16.jpg" />
+    <None Remove="Images\Legends\Image16.png" />
+    <None Remove="Images\Legends\Image17.jpg" />
+    <None Remove="Images\Legends\Image17.png" />
+    <None Remove="Images\Legends\Image18.jpg" />
+    <None Remove="Images\Legends\Image18.png" />
+    <None Remove="Images\Legends\Image19.jpg" />
+    <None Remove="Images\Legends\Image19.png" />
+    <None Remove="Images\Legends\Image2.jpg" />
+    <None Remove="Images\Legends\Image2.png" />
+    <None Remove="Images\Legends\Image3.jpg" />
+    <None Remove="Images\Legends\Image3.png" />
+    <None Remove="Images\Legends\Image4.jpg" />
+    <None Remove="Images\Legends\Image4.png" />
+    <None Remove="Images\Legends\Image5.jpg" />
+    <None Remove="Images\Legends\Image5.png" />
+    <None Remove="Images\Legends\Image6.jpg" />
+    <None Remove="Images\Legends\Image6.png" />
+    <None Remove="Images\Legends\Image7.jpg" />
+    <None Remove="Images\Legends\Image7.png" />
+    <None Remove="Images\Legends\Image8.jpg" />
+    <None Remove="Images\Legends\Image8.png" />
+    <None Remove="Images\Legends\Image9.jpg" />
+    <None Remove="Images\Legends\Image9.png" />
+    <None Remove="Images\Profiles\Image0.png" />
+    <None Remove="Images\Profiles\Image1.png" />
+    <None Remove="Images\Profiles\Image10.png" />
+    <None Remove="Images\Profiles\Image11.png" />
+    <None Remove="Images\Profiles\Image12.png" />
+    <None Remove="Images\Profiles\Image13.png" />
+    <None Remove="Images\Profiles\Image14.png" />
+    <None Remove="Images\Profiles\Image15.png" />
+    <None Remove="Images\Profiles\Image16.png" />
+    <None Remove="Images\Profiles\Image17.png" />
+    <None Remove="Images\Profiles\Image18.png" />
+    <None Remove="Images\Profiles\Image2.png" />
+    <None Remove="Images\Profiles\Image3.png" />
+    <None Remove="Images\Profiles\Image4.png" />
+    <None Remove="Images\Profiles\Image5.png" />
+    <None Remove="Images\Profiles\Image6.png" />
+    <None Remove="Images\Profiles\Image7.png" />
+    <None Remove="Images\Profiles\Image8.png" />
+    <None Remove="Images\Profiles\Image9.png" />
+    <None Remove="Images\Teams\Image0.jpg" />
+    <None Remove="Images\Teams\Image1.jpg" />
+    <None Remove="Images\Teams\Image10.jpg" />
+    <None Remove="Images\Teams\Image11.jpg" />
+    <None Remove="Images\Teams\Image12.jpg" />
+    <None Remove="Images\Teams\Image13.jpg" />
+    <None Remove="Images\Teams\Image14.jpg" />
+    <None Remove="Images\Teams\Image15.jpg" />
+    <None Remove="Images\Teams\Image16.jpg" />
+    <None Remove="Images\Teams\Image17.jpg" />
+    <None Remove="Images\Teams\Image18.jpg" />
+    <None Remove="Images\Teams\Image19.jpg" />
+    <None Remove="Images\Teams\Image2.jpg" />
+    <None Remove="Images\Teams\Image3.jpg" />
+    <None Remove="Images\Teams\Image4.jpg" />
+    <None Remove="Images\Teams\Image5.jpg" />
+    <None Remove="Images\Teams\Image6.jpg" />
+    <None Remove="Images\Teams\Image7.jpg" />
+    <None Remove="Images\Teams\Image8.jpg" />
+    <None Remove="Images\Teams\Image9.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\back.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\background.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image14.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image16.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image17.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image18.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image19.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Drivers\Image9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image14.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image16.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image17.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image18.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image19.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Legends\Image9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image15.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image17.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Profiles\Image9.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image14.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image16.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image17.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image18.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image19.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teams\Image9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Managers\" />
+  </ItemGroup>
+
+</Project>
