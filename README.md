@@ -54,11 +54,10 @@ Make sure you have the following installed:
 
 ## 🛠️ Configuration
 
-You can modify the default grid size by updating these values in `GameVM.cs`:
+You can modify the default grid size by updating these values in `GameWindow.xaml.cs`:
 
 ```csharp
-private const double CardWidth = 140; 
-private const double CardHeight = 140;
+public GameWindow(User user, int rows = 4, int columns = 4)
 ```
 
 
