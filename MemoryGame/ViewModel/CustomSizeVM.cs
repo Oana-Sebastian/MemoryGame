@@ -13,8 +13,8 @@ namespace MemoryGame.ViewModel
 {
     public class CustomSizeVM : INotifyPropertyChanged
     {
-        private int _width = 2;
-        private int _height = 2;
+        private int width = 4;
+        private int height = 4;
         private bool? _dialogResult;
         private User user;
 
@@ -22,10 +22,10 @@ namespace MemoryGame.ViewModel
 
         public int Width
         {
-            get => _width;
+            get => width;
             set
             {
-                _width = value;
+                width = value;
                 OnPropertyChanged(nameof(Width));
                 OnPropertyChanged(nameof(CanConfirm));
             }
@@ -33,10 +33,10 @@ namespace MemoryGame.ViewModel
 
         public int Height
         {
-            get => _height;
+            get => height;
             set
             {
-                _height = value;
+                height = value;
                 OnPropertyChanged(nameof(Height));
                 OnPropertyChanged(nameof(CanConfirm));
             }

@@ -41,11 +41,11 @@
             <ItemsControl ItemsSource="{Binding Cards}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        
-                        <UniformGrid Rows="{Binding Rows, RelativeSource={RelativeSource AncestorType=Window}}"
-                                     Columns="{Binding Columns, RelativeSource={RelativeSource AncestorType=Window}}"
-                                     Margin="10"
-                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <UniformGrid Rows="{Binding Rows}"
+             Columns="{Binding Columns}"
+             Margin="10"
+             HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

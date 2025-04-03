@@ -14,7 +14,16 @@ namespace MemoryGame.View
         {
             InitializeComponent();
             DataContext = new GameVM(user, rows, columns);
+          //  this.Closing += GameWindow_Closing;
+        }
+
+    private void GameWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext is GameVM viewModel)
+            {
+                viewModel.ExitGame();
+            }
         }
     }
 
-}
+    }

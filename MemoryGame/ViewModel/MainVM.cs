@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Input;
+using MemoryGame.Managers;
 using MemoryGame.Model;
 using MemoryGame.ViewModel.Commands;
 
@@ -108,23 +110,35 @@ namespace MemoryGame.ViewModel
 
         private void AddUser()
         {
+            if (Users.Any(u => u.Username.Equals(NewUsername, StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("A user with that name already exists. Please choose a different name.",
+                                "User Exists", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             Users.Add(new User { Username = NewUsername, ImagePath = CurrentImage });
             SaveUsers();
             NewUsername = string.Empty;
-
         }
 
         private void DeleteUser()
         {
             if (SelectedUser != null)
             {
-                string filename = $"save_{SelectedUser.Username}.json";
+                string username = SelectedUser.Username;
+
+                string filename = $"save_{username}.json";
                 if (File.Exists(filename))
                 {
                     File.Delete(filename);
                 }
+
                 Users.Remove(SelectedUser);
                 SaveUsers();
+
+                
+                StatisticsManager.RemoveUserStatistics(username);
             }
         }
 

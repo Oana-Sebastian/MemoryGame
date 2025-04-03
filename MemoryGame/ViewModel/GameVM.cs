@@ -8,6 +8,7 @@ using System.Windows;
 using MemoryGame.View;
 using System.Text.Json;
 using System.IO;
+using System.Diagnostics;
 
 namespace MemoryGame.ViewModel
 {
@@ -94,23 +95,7 @@ namespace MemoryGame.ViewModel
             StartNewGame();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (gameOver)
-                return;
-            if (timeLeft.TotalSeconds > 0)
-            {
-                timeLeft = timeLeft.Subtract(TimeSpan.FromSeconds(1));
-                OnPropertyChanged("TimeLeft");
-            }
-            else
-            {
-                timer.Stop();
-                timer = null;
-                MessageBox.Show("Time's up! You lost.");
-                gameOver = true;
-            }
-        }
+        
 
         private void InitializeCommands()
         {
@@ -128,8 +113,7 @@ namespace MemoryGame.ViewModel
 
         private void StartNewGame()
         {
-            timer?.Stop();
-            timer = null;
+            StopTimer();
             gameOver = false;
             Cards.Clear();
             firstSelectedCard = null;
@@ -147,14 +131,13 @@ namespace MemoryGame.ViewModel
             int totalCards = Rows * Columns;
             int pairCount = totalCards / 2;
 
-            
             for (int i = 0; i < pairCount; i++)
             {
                 string imagePath = $"../Images/{SelectedCategory}/Image{i % 20}.jpg";
                 Cards.Add(new CardVM { ImagePath = imagePath, IsFlipped = false, IsMatched = false });
                 Cards.Add(new CardVM { ImagePath = imagePath, IsFlipped = false, IsMatched = false });
             }
-            
+
             var rnd = new Random();
             for (int i = Cards.Count - 1; i > 0; i--)
             {
@@ -164,13 +147,39 @@ namespace MemoryGame.ViewModel
                 Cards[j] = temp;
             }
 
-
             timeLeft = TimeSpan.FromMinutes(2);
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             timer.Tick += Timer_Tick;
             timer.Start();
             OnPropertyChanged(nameof(IsGameActive));
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (gameOver) return;
+
+            if (timeLeft.TotalSeconds > 0)
+            {
+                timeLeft = timeLeft.Subtract(TimeSpan.FromSeconds(1));
+                OnPropertyChanged(nameof(TimeLeft));
+            }
+            else
+            {
+                StopTimer();
+                MessageBox.Show("Time's up! You lost.");
+                gameOver = true;
+            }
+        }
+
+        private void StopTimer()
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Tick -= Timer_Tick;
+                timer = null;
+                OnPropertyChanged(nameof(IsGameActive));
+            }
         }
 
         private void Category(string category)
@@ -195,32 +204,47 @@ namespace MemoryGame.ViewModel
             else if (secondSelectedCard == null && selectedCard != firstSelectedCard)
             {
                 secondSelectedCard = selectedCard;
-                isCheckingMatch = true; 
+                isCheckingMatch = true;
 
-                
                 if (firstSelectedCard.ImagePath == secondSelectedCard.ImagePath)
                 {
                     firstSelectedCard.IsMatched = true;
                     secondSelectedCard.IsMatched = true;
-                        if (AllCardsMatched())
-                        {
+
+                    if (AllCardsMatched())
+                    {
                         gameOver = true;
-                        timer?.Stop();
-                        timer = null;
+
+                        if (timer != null)
+                        {
+                            timer.Stop();
+                            timer = null;
+                        }
+
                         timeLeft = TimeSpan.Zero;
                         var userStat = Statistics.FirstOrDefault(s => s.Username == currentUser.Username);
+                        if (userStat != null)
+                        {
                             userStat.GamesWon++;
                             SaveStatistics();
-                            MessageBox.Show("Congratulations! You won.");
                         }
+
+                        MessageBox.Show("Congratulations! You won.");
+                        StopTimer();
+                        var currentGameWindow = Application.Current.Windows.OfType<GameWindow>().FirstOrDefault();
+                        if (currentGameWindow != null)
+                        {
+                            currentGameWindow.Close();
+                        }
+                    }
+
                     ResetSelection();
                 }
                 else
                 {
-                   
                     Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
-                        await System.Threading.Tasks.Task.Delay(500);
+                        await System.Threading.Tasks.Task.Delay(400);
                         firstSelectedCard.IsFlipped = false;
                         secondSelectedCard.IsFlipped = false;
                         ResetSelection();
@@ -229,7 +253,8 @@ namespace MemoryGame.ViewModel
             }
         }
 
-       
+
+
         private void ResetSelection()
         {
             firstSelectedCard = null;
@@ -279,8 +304,8 @@ namespace MemoryGame.ViewModel
                     });
                 }
 
-                
-                timer?.Stop();
+
+                StopTimer();
                 timer = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromSeconds(1);
                 timer.Tick += Timer_Tick;
@@ -331,15 +356,14 @@ namespace MemoryGame.ViewModel
             MessageBox.Show(message, "Statistics");
         }
 
-        private void ExitGame()
+        public void ExitGame()
         {
             gameOver = true;
-            timer?.Stop();
-            timer = null;
+            StopTimer();
             timeLeft = TimeSpan.Zero;
             SaveStatistics();
             OnPropertyChanged(nameof(IsGameActive));
-            Application.Current.Windows[1].Close();
+            Application.Current.Windows[1]?.Close();
         }
 
         private void SetStandard()
@@ -362,7 +386,7 @@ namespace MemoryGame.ViewModel
                 var stats = JsonSerializer.Deserialize<ObservableCollection<User>>(File.ReadAllText(path));
                 if (stats != null)
                 {
-                    Statistics = new ObservableCollection<User>(stats.Where(s => UserExists(s.Username)));
+                    Statistics = stats;
                 }
             }
         }
@@ -370,15 +394,11 @@ namespace MemoryGame.ViewModel
         private void SaveStatistics()
         {
             string path = "statistics.json";
-            Statistics = new ObservableCollection<User>(Statistics.Where(s => UserExists(s.Username))); 
             File.WriteAllText(path, JsonSerializer.Serialize(Statistics));
         }
 
         private void SetCustom()
         {
-            timer?.Stop();
-            timer = null;
-            timeLeft = TimeSpan.Zero;
             var customSizeWindow = new CustomSizeWindow();
             var viewModel = (CustomSizeVM)customSizeWindow.DataContext;
 
@@ -386,14 +406,16 @@ namespace MemoryGame.ViewModel
             {
                 int width = viewModel.Width;
                 int height = viewModel.Height;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                customSizeWindow.Close();
+                ExitGame();
 
-               
-                var gameWindow = new GameWindow(currentUser, height, width)
+                var newGameWindow = new GameWindow(currentUser, height, width)
                 {
                     DataContext = new GameVM(currentUser, height, width)
                 };
-                customSizeWindow.Close();
-                gameWindow.Show();
+                newGameWindow.Show();
             }
         }
 

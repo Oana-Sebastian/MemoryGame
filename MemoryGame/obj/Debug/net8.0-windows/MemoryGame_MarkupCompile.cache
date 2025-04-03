@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\Sebi\Desktop\MemoryGame\MemoryGame\obj\Debug\net8.0-windows\
+D:\Facultate\Anul II\Semestrul II\MAP\MemoryGame\MemoryGame\obj\Debug\net8.0-windows\
 MemoryGame
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\Sebi\Desktop\MemoryGame\MemoryGame\App.xaml
+D:\Facultate\Anul II\Semestrul II\MAP\MemoryGame\MemoryGame\App.xaml
 3421939614
 811352321398
-141556860124
+151588676348
 198-344842731
 View\CustomSizeWindow.xaml;View\GameWindow.xaml;View\MainWindow.xaml;
 
