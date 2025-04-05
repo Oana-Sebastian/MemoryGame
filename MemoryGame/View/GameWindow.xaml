@@ -6,7 +6,8 @@
         Height="{Binding WindowHeight}" 
         Width="{Binding WindowWidth, Mode=OneWay}"
         WindowStartupLocation="CenterScreen"
-        SizeToContent="WidthAndHeight">
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize">
 
     <DockPanel>
         

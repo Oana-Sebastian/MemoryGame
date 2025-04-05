@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using MemoryGame.Managers;
 using MemoryGame.Model;
+using MemoryGame.View;
 using MemoryGame.ViewModel.Commands;
 
 namespace MemoryGame.ViewModel
@@ -144,8 +145,15 @@ namespace MemoryGame.ViewModel
 
         private void Play()
         {
-            var gameWindow = new MemoryGame.View.GameWindow(SelectedUser);
+            int rows = Properties.Settings.Default.Height;
+            int columns = Properties.Settings.Default.Width;
+            var gameWindow = new MemoryGame.View.GameWindow(SelectedUser,rows,columns);
             gameWindow.Show();
+            var mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            if (mainWindow != null)
+            {
+                mainWindow.Close();
+            }
         }
 
         private void LoadUsers()

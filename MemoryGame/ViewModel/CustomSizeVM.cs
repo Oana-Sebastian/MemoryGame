@@ -13,8 +13,8 @@ namespace MemoryGame.ViewModel
 {
     public class CustomSizeVM : INotifyPropertyChanged
     {
-        private int width = 4;
-        private int height = 4;
+        private int width = Properties.Settings.Default.Width;
+        private int height = Properties.Settings.Default.Height;
         private bool? _dialogResult;
         private User user;
 
@@ -26,6 +26,7 @@ namespace MemoryGame.ViewModel
             set
             {
                 width = value;
+                Properties.Settings.Default.Width = value;
                 OnPropertyChanged(nameof(Width));
                 OnPropertyChanged(nameof(CanConfirm));
             }
@@ -37,6 +38,7 @@ namespace MemoryGame.ViewModel
             set
             {
                 height = value;
+                Properties.Settings.Default.Height = value;
                 OnPropertyChanged(nameof(Height));
                 OnPropertyChanged(nameof(CanConfirm));
             }
@@ -67,6 +69,7 @@ namespace MemoryGame.ViewModel
         private void Confirm()
         {
             DialogResult = true;
+            Properties.Settings.Default.Save();
             var newGameVM = new GameVM(user, Height, Width);
 
             var gameWindow = new GameWindow(user, Height, Width);
@@ -76,6 +79,10 @@ namespace MemoryGame.ViewModel
                 .OfType<MemoryGame.View.GameWindow>()
                 .FirstOrDefault();
             currentGameWindow?.Close();
+            var mainWindow = System.Windows.Application.Current.Windows
+                .OfType<MemoryGame.View.MainWindow>()
+                .FirstOrDefault();
+            mainWindow?.Close();
             var currentCustomWindow = System.Windows.Application.Current.Windows
                .OfType<MemoryGame.View.CustomSizeWindow>()
                .FirstOrDefault();

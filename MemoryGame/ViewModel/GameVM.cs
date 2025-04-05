@@ -9,6 +9,7 @@ using MemoryGame.View;
 using System.Text.Json;
 using System.IO;
 using System.Diagnostics;
+using System.Windows.Media.Media3D;
 
 namespace MemoryGame.ViewModel
 {
@@ -22,7 +23,17 @@ namespace MemoryGame.ViewModel
         public string TimeLeft => timeLeft.ToString(@"mm\:ss");
 
         public bool IsGameActive => timer != null;
-        public ObservableCollection<CardVM> Cards { get; set; }
+        private ObservableCollection<CardVM> cards;
+        public ObservableCollection<CardVM> Cards
+        {
+            get => cards;
+            set
+            {
+                cards = value;
+                OnPropertyChanged(nameof(Cards));
+            }
+        }
+
         public ObservableCollection<User> Statistics { get; set; } = new();
 
         private const double CardWidth = 140; 
@@ -58,13 +69,18 @@ namespace MemoryGame.ViewModel
         }
 
 
-        private string selectedCategory = "Drivers";
+        public string selectedCategory = "Drivers";
         public string SelectedCategory
         {
             get => selectedCategory;
-            set { 
-                selectedCategory = value; 
+            set
+            {
+                if (selectedCategory != value)
+                {
+                    selectedCategory = value;
+                    OnPropertyChanged(nameof(SelectedCategory));
                 }
+            }
         }
 
 
@@ -86,16 +102,17 @@ namespace MemoryGame.ViewModel
         private bool gameOver = false;
         public GameVM(User user ,int height, int width)
         {
+            SelectedCategory = Properties.Settings.Default.Category;
             currentUser = user;
             LoadStatistics();
-            Rows = height;
+            Rows =Properties.Settings.Default.Height;
+            Columns = Properties.Settings.Default.Width;
             Columns = width;
             Cards = new ObservableCollection<CardVM>();
             InitializeCommands();
             StartNewGame();
         }
-
-        
+ 
 
         private void InitializeCommands()
         {
@@ -110,50 +127,129 @@ namespace MemoryGame.ViewModel
             AboutCommand = new RelayCommand(o => ShowAbout());
             CardSelectedCommand = new RelayCommand(o => CardSelected(o), o => IsGameActive);
         }
-
+        #region Game
         private void StartNewGame()
         {
+            Rows=Properties.Settings.Default.Height;
+            Columns= Properties.Settings.Default.Width;
             StopTimer();
             gameOver = false;
             Cards.Clear();
             firstSelectedCard = null;
             secondSelectedCard = null;
 
-            var userStat = Statistics.FirstOrDefault(s => s.Username == currentUser.Username);
-            if (userStat == null)
+            UpdateUserStatistics();
+
+            var newCards = GenerateShuffledCards();
+            foreach (var card in newCards)
             {
-                userStat = new User { Username = currentUser.Username, GamesPlayed = 0, GamesWon = 0 };
-                Statistics.Add(userStat);
+                Cards.Add(card);
             }
 
-            userStat.GamesPlayed++;
-            SaveStatistics();
-            int totalCards = Rows * Columns;
-            int pairCount = totalCards / 2;
-
-            for (int i = 0; i < pairCount; i++)
-            {
-                string imagePath = $"../Images/{SelectedCategory}/Image{i % 20}.jpg";
-                Cards.Add(new CardVM { ImagePath = imagePath, IsFlipped = false, IsMatched = false });
-                Cards.Add(new CardVM { ImagePath = imagePath, IsFlipped = false, IsMatched = false });
-            }
-
-            var rnd = new Random();
-            for (int i = Cards.Count - 1; i > 0; i--)
-            {
-                int j = rnd.Next(i + 1);
-                var temp = Cards[i];
-                Cards[i] = Cards[j];
-                Cards[j] = temp;
-            }
+            Cards = GenerateShuffledCards();
 
             timeLeft = TimeSpan.FromMinutes(2);
             timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-            timer.Tick += Timer_Tick;
+            timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();
             OnPropertyChanged(nameof(IsGameActive));
         }
+        private void OpenGame()
+        {
+           
+            string filename = $"save_{currentUser.Username}.json";
 
+            if (!File.Exists(filename))
+            {
+                MessageBox.Show("There is no save for this user.");
+                return;
+            }
+
+            string json = File.ReadAllText(filename);
+            GameState loadedState = JsonSerializer.Deserialize<GameState>(json);
+            if (loadedState != null)
+            {
+              
+                Rows = loadedState.Rows;
+                Columns = loadedState.Columns;
+                SelectedCategory = loadedState.SelectedCategory;
+                Properties.Settings.Default.Height = loadedState.Rows;
+                Properties.Settings.Default.Width = loadedState.Columns;
+                Properties.Settings.Default.Category = loadedState.SelectedCategory;
+                Properties.Settings.Default.Save();
+                timeLeft = TimeSpan.FromSeconds(loadedState.TimeLeftSeconds);
+
+                Cards.Clear();
+                foreach (var cs in loadedState.Cards)
+                {
+                    Cards.Add(new CardVM
+                    {
+                        ImagePath = cs.ImagePath,
+                        IsFlipped = cs.IsFlipped,
+                        IsMatched = cs.IsMatched
+                    });
+                }
+
+
+                StopTimer();
+                timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromSeconds(1);
+                timer.Tick += Timer_Tick;
+                timer.Start();
+                OnPropertyChanged(nameof(TimeLeft));
+
+                MessageBox.Show("Game loaded succesfully!");
+            }
+            else
+            {
+                MessageBox.Show("Error with loading the save");
+            }
+            //timer works
+        }
+
+        private void SaveGame()
+        {
+            var gameState = new GameState
+            {
+                Rows = this.Rows,
+                Columns = this.Columns,
+                SelectedCategory = this.SelectedCategory,
+                TimeLeftSeconds = timeLeft.TotalSeconds,
+                Cards = Cards.Select(c => new CardState
+                {
+                    ImagePath = c.ImagePath,
+                    IsFlipped = c.IsFlipped,
+                    IsMatched = c.IsMatched
+                }).ToList()
+            };
+
+           
+            string filename = $"save_{currentUser.Username}.json";
+
+            string json = JsonSerializer.Serialize(gameState, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filename, json);
+
+            MessageBox.Show("Game saved");
+        }
+        public void ExitGame()
+        {
+            gameOver = true;
+            StopTimer();
+            timeLeft = TimeSpan.Zero;
+            SaveStatistics();
+            OnPropertyChanged(nameof(IsGameActive));
+            var currentGameWindow = Application.Current.Windows
+               .OfType<GameWindow>()
+               .FirstOrDefault();
+
+            if (currentGameWindow != null && !currentGameWindow.IsClosing)
+            {
+                currentGameWindow.Close();
+            }
+        }
+        #endregion
+
+        #region Timer
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (gameOver) return;
@@ -175,17 +271,23 @@ namespace MemoryGame.ViewModel
         {
             if (timer != null)
             {
+                timer.IsEnabled = false;
                 timer.Stop();
                 timer.Tick -= Timer_Tick;
                 timer = null;
                 OnPropertyChanged(nameof(IsGameActive));
             }
         }
+        #endregion
 
+        #region Cards
         private void Category(string category)
         {
             SelectedCategory = category;
+            Properties.Settings.Default.Category = category;
+            Properties.Settings.Default.Save();
             StartNewGame();
+            //timer works
         }
 
         private void CardSelected(object parameter)
@@ -253,6 +355,39 @@ namespace MemoryGame.ViewModel
             }
         }
 
+        private ObservableCollection<CardVM> GenerateShuffledCards()
+        {
+            int totalCards = Rows * Columns;
+            int pairCount = totalCards / 2;
+
+            var rnd = new Random();
+            var availableImages = Enumerable.Range(0, 20).OrderBy(_ => rnd.Next()).ToList();
+            var selectedImages = availableImages.Take(pairCount).ToList();
+
+            List<int> availablePositions = Enumerable.Range(0, totalCards).ToList();
+            availablePositions = availablePositions.OrderBy(_ => rnd.Next()).ToList();
+
+           
+            CardVM[] cardsArray = new CardVM[totalCards];
+
+            foreach (int imageIndex in selectedImages)
+            {
+                string imagePath = $"../Images/{SelectedCategory}/Image{imageIndex}.jpg";
+
+
+                int pos1 = availablePositions[0];
+                availablePositions.RemoveAt(0);
+                int pos2 = availablePositions[0];
+                availablePositions.RemoveAt(0);
+
+               
+                cardsArray[pos1] = new CardVM { ImagePath = imagePath, IsFlipped = false, IsMatched = false };
+                cardsArray[pos2] = new CardVM { ImagePath = imagePath, IsFlipped = false, IsMatched = false };
+            }
+
+           
+            return new ObservableCollection<CardVM>(cardsArray);
+        }
 
 
         private void ResetSelection()
@@ -272,79 +407,14 @@ namespace MemoryGame.ViewModel
             return true;
         }
 
-        private void OpenGame()
+
+        #endregion
+
+        private bool UserExists(string username)
         {
-           
-            string filename = $"save_{currentUser.Username}.json";
-
-            if (!File.Exists(filename))
-            {
-                MessageBox.Show("There is no save for this user.");
-                return;
-            }
-
-            string json = File.ReadAllText(filename);
-            GameState loadedState = JsonSerializer.Deserialize<GameState>(json);
-            if (loadedState != null)
-            {
-              
-                Rows = loadedState.Rows;
-                Columns = loadedState.Columns;
-                SelectedCategory = loadedState.SelectedCategory;
-                timeLeft = TimeSpan.FromSeconds(loadedState.TimeLeftSeconds);
-
-                Cards.Clear();
-                foreach (var cs in loadedState.Cards)
-                {
-                    Cards.Add(new CardVM
-                    {
-                        ImagePath = cs.ImagePath,
-                        IsFlipped = cs.IsFlipped,
-                        IsMatched = cs.IsMatched
-                    });
-                }
-
-
-                StopTimer();
-                timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromSeconds(1);
-                timer.Tick += Timer_Tick;
-                timer.Start();
-                OnPropertyChanged(nameof(TimeLeft));
-
-                MessageBox.Show("Game loaded succesfully!");
-            }
-            else
-            {
-                MessageBox.Show("Error with loading the save");
-            }
+            return currentUser != null && username == currentUser.Username;
         }
-
-        private void SaveGame()
-        {
-            var gameState = new GameState
-            {
-                Rows = this.Rows,
-                Columns = this.Columns,
-                SelectedCategory = this.SelectedCategory,
-                TimeLeftSeconds = timeLeft.TotalSeconds,
-                Cards = Cards.Select(c => new CardState
-                {
-                    ImagePath = c.ImagePath,
-                    IsFlipped = c.IsFlipped,
-                    IsMatched = c.IsMatched
-                }).ToList()
-            };
-
-           
-            string filename = $"save_{currentUser.Username}.json";
-
-            string json = JsonSerializer.Serialize(gameState, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(filename, json);
-
-            MessageBox.Show("Game saved");
-        }
-
+        #region Statistics
         private void ShowStatistics()
         {
             LoadStatistics();
@@ -356,27 +426,6 @@ namespace MemoryGame.ViewModel
             MessageBox.Show(message, "Statistics");
         }
 
-        public void ExitGame()
-        {
-            gameOver = true;
-            StopTimer();
-            timeLeft = TimeSpan.Zero;
-            SaveStatistics();
-            OnPropertyChanged(nameof(IsGameActive));
-            Application.Current.Windows[1]?.Close();
-        }
-
-        private void SetStandard()
-        {
-            Rows = 4;
-            Columns = 4;
-            StartNewGame();
-        }
-
-        private bool UserExists(string username)
-        {
-            return currentUser != null && username == currentUser.Username;
-        }
 
         private void LoadStatistics()
         {
@@ -391,12 +440,39 @@ namespace MemoryGame.ViewModel
             }
         }
 
+        private void UpdateUserStatistics()
+        {
+            var userStat = Statistics.FirstOrDefault(s => s.Username == currentUser.Username);
+            if (userStat == null)
+            {
+                userStat = new User { Username = currentUser.Username, GamesPlayed = 0, GamesWon = 0 };
+                Statistics.Add(userStat);
+            }
+
+            userStat.GamesPlayed++;
+            SaveStatistics();
+        }
+
+
         private void SaveStatistics()
         {
             string path = "statistics.json";
             File.WriteAllText(path, JsonSerializer.Serialize(Statistics));
         }
+        #endregion
 
+        #region Settings
+        private void SetStandard()
+        {
+            Rows = 4;
+            Columns = 4;
+            Properties.Settings.Default.Height = Rows;
+            Properties.Settings.Default.Width = Columns;
+            Properties.Settings.Default.Save();
+            StopTimer();
+            StartNewGame();
+            //timer works
+        }
         private void SetCustom()
         {
             var customSizeWindow = new CustomSizeWindow();
@@ -404,12 +480,25 @@ namespace MemoryGame.ViewModel
 
             if (customSizeWindow.ShowDialog() == true)
             {
+                StopTimer();
                 int width = viewModel.Width;
                 int height = viewModel.Height;
+                Properties.Settings.Default.Height = height;
+                Properties.Settings.Default.Width = width;
+                Properties.Settings.Default.Save();
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 customSizeWindow.Close();
-                ExitGame();
+
+            
+                var currentGameWindow = Application.Current.Windows
+                    .OfType<GameWindow>()
+                    .FirstOrDefault();
+                if (currentGameWindow != null)
+                {
+                    currentGameWindow.SetResizingFlag(true);
+                    currentGameWindow.Close();
+                }
 
                 var newGameWindow = new GameWindow(currentUser, height, width)
                 {
@@ -419,6 +508,7 @@ namespace MemoryGame.ViewModel
             }
         }
 
+        #endregion
         private void ShowAbout()
         {
             MessageBox.Show("Name: Oană Sebastian\nEmail: sebastian.oana@student.unitbv.ro\nGroup: 10LF233\nSpecialization: Informatics");
