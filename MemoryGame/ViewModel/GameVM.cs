@@ -83,6 +83,20 @@ namespace MemoryGame.ViewModel
             }
         }
 
+        public string selectedDifficulty = "Normal";
+        public string SelectedDifficulty
+        {
+            get => selectedDifficulty;
+            set
+            {
+                if (selectedDifficulty != value)
+                {
+                    selectedDifficulty = value;
+                    OnPropertyChanged(nameof(SelectedDifficulty));
+                }
+            }
+        }
+
 
         public ICommand NewGameCommand { get; set; }
         public ICommand OpenGameCommand { get; set; }
@@ -94,6 +108,7 @@ namespace MemoryGame.ViewModel
         public ICommand SetCustomCommand { get; set; }
         public ICommand AboutCommand { get; set; }
         public ICommand CardSelectedCommand { get; set; }
+        public ICommand DifficultyCommand { get; set; }
 
         public static User currentUser;
         private CardVM firstSelectedCard;
@@ -103,6 +118,7 @@ namespace MemoryGame.ViewModel
         public GameVM(User user ,int height, int width)
         {
             SelectedCategory = Properties.Settings.Default.Category;
+            SelectedDifficulty = Properties.Settings.Default.Difficulty;
             currentUser = user;
             LoadStatistics();
             Rows =Properties.Settings.Default.Height;
@@ -126,6 +142,7 @@ namespace MemoryGame.ViewModel
             SetCustomCommand = new RelayCommand(o => SetCustom());
             AboutCommand = new RelayCommand(o => ShowAbout());
             CardSelectedCommand = new RelayCommand(o => CardSelected(o), o => IsGameActive);
+            DifficultyCommand = new RelayCommand(o => SetDifficulty(o.ToString()));
         }
         #region Game
         private void StartNewGame()
@@ -147,8 +164,9 @@ namespace MemoryGame.ViewModel
             }
 
             Cards = GenerateShuffledCards();
+            int difficultyTime = GetDifficultyTime(SelectedDifficulty);
 
-            timeLeft = TimeSpan.FromMinutes(2);
+            timeLeft = TimeSpan.FromSeconds(Cards.Count()*difficultyTime);
             timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();
@@ -331,8 +349,8 @@ namespace MemoryGame.ViewModel
                             SaveStatistics();
                         }
 
-                        MessageBox.Show("Congratulations! You won.");
                         StopTimer();
+                        MessageBox.Show("Congratulations! You won.");
                         var currentGameWindow = Application.Current.Windows.OfType<GameWindow>().FirstOrDefault();
                         if (currentGameWindow != null)
                         {
@@ -410,10 +428,6 @@ namespace MemoryGame.ViewModel
 
         #endregion
 
-        private bool UserExists(string username)
-        {
-            return currentUser != null && username == currentUser.Username;
-        }
         #region Statistics
         private void ShowStatistics()
         {
@@ -508,10 +522,32 @@ namespace MemoryGame.ViewModel
             }
         }
 
+        private void SetDifficulty(string difficulty)
+        {
+            SelectedDifficulty = difficulty;
+            Properties.Settings.Default.Difficulty = difficulty;
+            Properties.Settings.Default.Save();
+            StartNewGame();
+        }
+
+        private int GetDifficultyTime(string difficulty)
+        {
+            return difficulty switch
+            {
+                "Easy" => 5,
+                "Normal" => 4,
+                "Hard" => 3,
+                "Expert" => 2
+            };
+        }
+
         #endregion
+
+
         private void ShowAbout()
         {
-            MessageBox.Show("Name: Oană Sebastian\nEmail: sebastian.oana@student.unitbv.ro\nGroup: 10LF233\nSpecialization: Informatics");
+           AboutWindow aboutWindow= new AboutWindow();
+           aboutWindow.ShowDialog();
         }
 
         protected void OnPropertyChanged(string propertyName)

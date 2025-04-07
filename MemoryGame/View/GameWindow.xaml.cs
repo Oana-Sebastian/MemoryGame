@@ -5,9 +5,7 @@ using MemoryGame.ViewModel;
 
 namespace MemoryGame.View
 {
-    /// <summary>
-    /// Interaction logic for GameWindow.xaml
-    /// </summary>
+
     public partial class GameWindow : Window
     {
         private bool isClosing = false;

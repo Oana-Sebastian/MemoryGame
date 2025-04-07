@@ -24,15 +24,22 @@
                     <MenuItem Header="Legends" Command="{Binding CategoryCommand}" CommandParameter="Legends"/>
                     <MenuItem Header="Teams" Command="{Binding CategoryCommand}" CommandParameter="Teams"/>
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="Difficulty">
+                    <MenuItem Header="Easy" Command="{Binding DifficultyCommand}" CommandParameter="Easy"/>
+                    <MenuItem Header="Normal" Command="{Binding DifficultyCommand}" CommandParameter="Normal"/>
+                    <MenuItem Header="Hard" Command="{Binding DifficultyCommand}" CommandParameter="Hard"/>
+                    <MenuItem Header="Expert" Command="{Binding DifficultyCommand}" CommandParameter="Expert"/>
+                </MenuItem>
                 <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
             </MenuItem>
             <MenuItem Header="Options">
-                <MenuItem Header="Standard" Command="{Binding SetStandardCommand}"/>
-                <MenuItem Header="Custom" Command="{Binding SetCustomCommand}"/>
-            </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="About" Command="{Binding AboutCommand}"/>
-            </MenuItem>
+                    <MenuItem Header="Standard" Command="{Binding SetStandardCommand}"/>
+                    <MenuItem Header="Custom" Command="{Binding SetCustomCommand}"/>
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="About" Command="{Binding AboutCommand}"/>
+                </MenuItem>
         </Menu>
        
         <StackPanel Orientation="Vertical">

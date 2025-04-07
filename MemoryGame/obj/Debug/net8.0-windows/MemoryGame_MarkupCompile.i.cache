@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\Sebi\Desktop\MemoryGame\MemoryGame\App.xaml
-3421939614
+41389218213
 811352321398
-181852142554
+192055530047
 198-344842731
-View\CustomSizeWindow.xaml;View\GameWindow.xaml;View\MainWindow.xaml;
+View\AboutWindow.xaml;View\CustomSizeWindow.xaml;View\GameWindow.xaml;View\MainWindow.xaml;
 
-True
+False
 
