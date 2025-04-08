@@ -11,7 +11,9 @@ A fun and interactive **Memory Game** built with **WPF (Windows Presentation Fou
 - 💾 Save and load game progress
 - 🎨 Multiple categories: **Drivers, Legends, Teams**
 - ⚙️ Standard & custom grid sizes
-
+- 🎯 Difficulty options: 🟢**Easy**, 🟡 **Normal**, 🟠 **Hard** and 🔴**Expert**
+- 💾 Persistence for difficulty, size and category
+  
 ## 🛠️ Technologies Used
 
 - 🔹 **C#**
