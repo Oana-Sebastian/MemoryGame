@@ -48,6 +48,9 @@ Make sure you have the following installed:
 ![image](https://github.com/user-attachments/assets/042a43e6-743b-427e-b0f7-fbaa371276a7)
 ![image](https://github.com/user-attachments/assets/1e63a2e9-d8c0-4cda-89e5-cfbff547600e)
 ![image](https://github.com/user-attachments/assets/457bbabe-8052-4b8c-9bc7-6c6eb0839eb1)
+![image](https://github.com/user-attachments/assets/6adc5866-70e6-429e-843e-0b89f27f1583)
+![image](https://github.com/user-attachments/assets/5c92ce66-278d-4802-81e4-6e85bde68aa5)
+![image](https://github.com/user-attachments/assets/b9e10ccf-aa95-400a-bd93-d923d42da0e2)
 
 
 
