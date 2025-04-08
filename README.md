@@ -43,6 +43,13 @@ Make sure you have the following installed:
 3. **Open the project in Visual Studio** and build the solution.
 4. **Run the application** using `F5`.
 
+# 📷 Screenshots
+
+![image](https://github.com/user-attachments/assets/042a43e6-743b-427e-b0f7-fbaa371276a7)
+![image](https://github.com/user-attachments/assets/1e63a2e9-d8c0-4cda-89e5-cfbff547600e)
+![image](https://github.com/user-attachments/assets/457bbabe-8052-4b8c-9bc7-6c6eb0839eb1)
+
+
 
 ## 📝 Usage
 
