@@ -64,12 +64,6 @@ Make sure you have the following installed:
 - Access game **categories** and **statistics** from the menu.
 - Save/load your progress to continue later.
 
-## 🛠️ Configuration
 
-You can modify the default grid size by updating these values in `GameWindow.xaml.cs`:
-
-```csharp
-public GameWindow(User user, int rows = 4, int columns = 4)
-```
 
 
